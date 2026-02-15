@@ -173,6 +173,8 @@ export interface AssistantMessage {
 	api: Api;
 	provider: Provider;
 	model: string;
+	/** The actual model that served the request, when it differs from `model` (e.g. OpenRouter routing). */
+	resolvedModel?: string;
 	usage: Usage;
 	stopReason: StopReason;
 	errorMessage?: string;

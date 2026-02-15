@@ -142,6 +142,11 @@ export const streamOpenAICompletions: StreamFunction<"openai-completions", OpenA
 			};
 
 			for await (const chunk of openaiStream) {
+				// Capture resolved model name when it differs from the requested model
+				// (e.g. OpenRouter's openrouter/auto returns the actual model used)
+				if (chunk.model && chunk.model !== model.id) {
+					output.resolvedModel = chunk.model;
+				}
 				if (chunk.usage) {
 					const cachedTokens = chunk.usage.prompt_tokens_details?.cached_tokens || 0;
 					const reasoningTokens = chunk.usage.completion_tokens_details?.reasoning_tokens || 0;
